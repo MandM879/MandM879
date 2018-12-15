@@ -1,8 +1,8 @@
 //pair
 typedef struct _Pair
 {
-	int key;
-    float data;
+	int *key;
+    float *data;
 } pair
 
 //node
@@ -19,11 +19,12 @@ Node *t new_tree() //returns a link to the root
 {
 	Node *t = (Node *)malloc(sizeof(Node));
 	(*t).left = (*t).right = (*t).parent = NULL;
+	(*t).keydata.(*key) = (*t).keydata.(*data) = NULL;
 	return t;
 }
 
 //delete
-int delete_tree(Node *t)
+int delete_tree(Node* t)
 {
 	Node *tmp;
 	while ((*t).left != NULL)
@@ -77,14 +78,56 @@ int delete_tree(Node *t)
 }
 
 //add
-add_pair(k, v)
+Node* add_pair(int k, float v, Node* t)
 {
 	Node *tmp;
 	tmp = t;
-	while (!(((((*tmp).left) == NULL) and (k < (*tmp).keydata.key)) or
-	         ((((*tmp).right) == NULL) and (k > (*tmp).keydata.key))))
+	if ((*tmp).keydata.(*key) == NULL)
 	{
-		if (k > (*tmp).keydata.key)
+		(*tmp).keydata.(*key) = k;
+	}
+	else
+	{
+		while (!(((((*tmp).left) == NULL) and (k < (*tmp).keydata.(*key))) or
+	             ((((*tmp).right) == NULL) and (k > (*tmp).keydata.(*key)))))
+		{
+			if (k > (*tmp).keydata.(*key))
+			{
+				tmp = (*tmp).right;
+			}
+			else
+			{
+				tmp = (*tmp).left;
+			}
+		}
+		if ((((*tmp).left) == NULL) and (k < (*tmp).keydata.(*key)))
+		{
+			Node *((*tmp).left)) = (Node *)malloc(sizeof(Node));
+			(*((*tmp).left)).left = (*((*tmp).left)).right = NULL;
+			(*((*tmp).left)).parent = tmp;
+			(*((*tmp).left)).(*key) = k;
+			(*((*tmp).left)).(*value) = v;
+		}
+		else
+		{
+			Node *((*tmp).right)) = (Node *)malloc(sizeof(Node));
+			(*((*tmp).right)).left = (*((*tmp).right)).right = NULL;
+			(*((*tmp).right)).parent = tmp;
+			(*((*tmp).right)).(*key) = k;
+			(*((*tmp).right)).(*value) = v;
+		}
+	return t;
+	}
+}
+
+//delete
+Node* delete_pair(int k, Node* t)
+{
+	Node *tmp;
+	tmp = t;
+	while ((*tmp).keydata.(*key) != k)
+	{
+		if (k > (*tmp).keydata.(*key))
 		{
 			tmp = (*tmp).right;
 		}
@@ -93,21 +136,11 @@ add_pair(k, v)
 			tmp = (*tmp).left;
 		}
 	}
-	
-	if ((((*tmp).left) == NULL) and (k < (*tmp).keydata.key))
+	if (((*tmp).keydata.(*key) == k) and 
+	    ((*tmp).left == NULL)
+		((*tmp).right == NULL))
 	{
-		Node *((*tmp).left)) = (Node *)malloc(sizeof(Node));
-		(*((*tmp).left)).left = (*((*tmp).left)).right = NULL;
-		(*((*tmp).left)).parent = tmp;
-		(*((*tmp).left)).key = k;
-		(*((*tmp).left)).value = v;
+		free (tmp);
 	}
-	else
-	{
-		Node *((*tmp).right)) = (Node *)malloc(sizeof(Node));
-		(*((*tmp).right)).left = (*((*tmp).right)).right = NULL;
-		(*((*tmp).right)).parent = tmp;
-		(*((*tmp).right)).key = k;
-		(*((*tmp).right)).value = v;
-	}
+	//???
 }
