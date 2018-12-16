@@ -1,16 +1,22 @@
+// Null element of a stack is empty
 #include <stdio.h>
 #include <stdlib.h>
 // struct
-typedef struct _Stack
+typedef struct _Stack //we create single-linked list as a stack
 {
-    char value;
-    struct _Stack *next;
+	char value;
+	struct _Stack *next;
 } Stack;
 
 //new()
 Stack * stack_new ()
 {
 	Stack *s = (Stack *)malloc(sizeof(Stack)); //allocates memory
+	//ERROR CHECK
+	if (s == NULL)
+	{
+		return NULL; //can't allocate
+	}
 	(*s).next = NULL; //points to null
 	return s; //returns pointer
 }
@@ -18,6 +24,12 @@ Stack * stack_new ()
 //stack_delete(s)
 int stack_delete (Stack *s)
 {
+	//ERROR CHECK
+	if (s == NULL)
+	{
+		return 1; //no stack
+	}
+	//ERROR CHECK
 	Stack *p = NULL;
 	while ((*s).next != NULL)
 	{
@@ -29,9 +41,15 @@ int stack_delete (Stack *s)
 	return 0;
 }
 
-//insert (s,a)
-Stack * push (Stack *s, char a)
+//push (s,a)
+Stack * push (Stack *s, char a) //adds an element to the stack
 {
+	//ERROR CHECK
+	if (s == NULL)
+	{
+		return NULL; //no stack to insert to
+ 	}
+	//ERROR CHECK
 	Stack *tmp = (Stack *)malloc(sizeof(Stack));
 	(*tmp).next = (*s).next;
 	(*s).next = tmp;
@@ -39,11 +57,17 @@ Stack * push (Stack *s, char a)
 	return s;
 }
 
-char pop (Stack *s)
+char pop (Stack *s) //pops an element from the stack
 {
+	//ERROR CHECK
+	if (s == NULL)
+	{
+		return 0; //no stack
+	}
+	//ERROR CHECK
 	if ((*s).next == NULL)
 	{
-		return 0;
+		return 0; //no elements in the stack
 	}
 	else
 	{
@@ -57,26 +81,26 @@ char pop (Stack *s)
 
 int main ()
 {
-	Stack * stack = stack_new();
+	Stack * stack = stack_new(); //creates a stack
 	char bracket;
 	int flag = 0;
 	while (1)
 	{
-		bracket = getchar();
+		bracket = getchar(); //gets a bracket
 		switch (bracket)
 		{
 			case '(':
-		    {
+			{
 				push (stack, bracket);
 				break;
 			}
 			case '{':
-		    {
+			{
 				push (stack, bracket);
 				break;
 			}
 			case ')':
-		    {
+			{
 				if (pop (stack) != '(')
 				{
 					flag = 1;
@@ -84,8 +108,8 @@ int main ()
 				break;
 			}
 			case '}':
-		    {
-			    if (pop (stack) != '{')
+			{
+				if (pop (stack) != '{')
 				{
 					flag = 1;
 				}
@@ -98,11 +122,11 @@ int main ()
 					printf("WRONG");
 				}
 				else
-	            {
-	            	printf("RIGHT");
-	            }
-	            stack_delete(stack);
-	            return 0;
+				{
+					printf("RIGHT");
+				}
+				stack_delete(stack);
+				return 0;
 			}
 		}
 	}		
