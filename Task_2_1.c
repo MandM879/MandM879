@@ -1,5 +1,5 @@
 // TASK 1
-// Нулевой элемент пуст
+// Null element is empty
 #include <stdio.h>
 #include <stdlib.h>
 // struct
@@ -13,6 +13,12 @@ typedef struct _List
 List * list_new()
 {
 	List *l = (List *)malloc(sizeof(List)); //allocates memory
+	//ERROR CHECK
+	if (l == NULL)
+	{
+		return NULL; //can't allocate
+	}
+	//ERROR CHECK
 	(*l).next = NULL; //points to null
 	return l; //returns pointer
 }
@@ -20,6 +26,12 @@ List * list_new()
 //list_delete(l)
 int list_delete(List *l)
 {
+	//ERROR CHECK
+	if (l == NULL)
+	{
+		return 1; //no list
+	}
+	//ERROR CHECK
 	List *p = NULL;
 	while ((*l).next != NULL)
 	{
@@ -34,16 +46,28 @@ int list_delete(List *l)
 //insert (l,a)
 List * insert (List *l, int a)
 {
-	List *tmp = (List *)malloc(sizeof(List));
+	//ERROR CHECK
+	if (l == NULL)
+	{
+		return NULL; //no list to insert to
+ 	}
+	//ERROR CHECK
+	List *tmp = (List *)malloc(sizeof(List)); //allocates memory
 	(*tmp).next = (*l).next;
-	(*l).next = tmp;
-	(*tmp).value = a;
+	(*l).next = tmp; //moves pointer
+	(*tmp).value = a; //inserts element
 	return l; //returns pointer to inserted element
 }
 
-//remove (l,a) назовем ее rremove(l, a)
+//remove (l,a) call it rremove(l, a)
 int rremove (List *l, int a)
 {
+	//ERROR CHECK
+	if (l == NULL)
+	{
+		return 1; //no list
+	}
+	//ERROR CHECK
 	List *tmp = NULL;
 	while ((*l).next != NULL)
 	{
@@ -60,6 +84,12 @@ int rremove (List *l, int a)
 //print(l)
 int print(List *l)
 {
+	//ERROR CHECK
+	if (l == NULL)
+	{
+		return 1; //no list
+	}
+	//ERROR CHECK
 	if ((*l).next == NULL)
 	{
 		return 0;
@@ -79,6 +109,7 @@ int print(List *l)
 	return 0;
 }
 
+//that is used as a test
 int main ()
 {
 	List *test;
