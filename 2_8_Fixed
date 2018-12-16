@@ -50,3 +50,137 @@ Tree * add_pair(int k, float v, Tree* t)
 	**field.keydata.value = v;
 	return t;
 }
+
+//delete
+int delete_tree(Tree* t)
+{
+	Node *tmp = (*t).root
+	Node *p = NULL
+	while (*tmp != NULL)
+	{
+		if ((*tmp).left != NULL)
+		{
+			tmp = (*tmp).left;
+		}
+		else
+		{
+			if ((*tmp).right != NULL)
+			{
+				tmp = (*tmp).right;
+			}
+			else
+			{
+				p = tmp;
+				tmp = (*tmp).parent;
+				free(p);
+			}
+		}
+	}
+	free(t);
+	return 0;
+}
+
+// struct
+typedef struct _Stack
+{
+    int key;
+    struct _Stack *next;
+} Stack;
+
+//new()
+Stack * stack_new ()
+{
+	Stack *s = (Stack *)malloc(sizeof(Stack)); //allocates memory
+	(*s).next = NULL; //points to null
+	return s; //returns pointer
+}
+
+//stack_delete(s)
+int stack_delete (Stack *s)
+{
+	Stack *p = NULL;
+	while ((*s).next != NULL)
+	{
+		p = s; //now p points to tail
+		s = (*s).next; //move a Stack
+		free(p); //delete tail
+	}
+	free(s); //delete alone element
+	return 0;
+}
+
+//insert (s,k)
+Stack * push (Stack *s, int k)
+{
+	Stack *tmp = (Stack *)malloc(sizeof(Stack));
+	(*tmp).next = (*s).next;
+	(*s).next = tmp;
+	(*tmp).value = k;
+	return s;
+}
+
+//search by key
+int search (Stack *s, int k)
+{
+	while ((*s).next != NULL)
+	{
+		if (k = (*s).key)
+		{
+			return 1;
+		}
+		else
+		{
+            (*s) = (*s).next;
+		}
+	}
+	if (k = (*s).key)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+//deep
+int dfs(Node* t)
+{
+	Node *tmp;
+	tmp = (*t).root;
+	Stack * stack = stack_new();
+	if ((*tmp) == NULL)
+	{
+		return 0;
+	}
+	push (stack, (*tmp).keydata.key);
+	while (1)
+	{
+	    if (((*tmp).left != NULL) and 
+	        (search(stack, (*((*tmp).left)).keydata.key) == 0))
+	    {
+	    	tmp = (*tmp).left;
+	    	push (stack, (*tmp).keydata.key);
+	    }
+	    else
+	    {
+	    	(((*tmp).right != NULL) and 
+	         (search(stack, (*((*tmp).right)).keydata.key) == 0))
+	    	{
+	    		tmp = (*tmp).right;
+	    		push (stack, (*tmp).keydata.key);
+	    	}
+	    	else
+	        {
+	        	if ((*tmp).parent != NULL)
+	        	{
+	        		tmp = (*tmp).parent;
+	        	}
+	        }
+	    }
+		if (tmp == (*t).root)
+		{
+			return 0;
+		}
+	}
+}
