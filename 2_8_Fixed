@@ -1,0 +1,52 @@
+//pair
+typedef struct _Pair
+{
+	int key;
+    float data;
+} pair;
+
+//node
+typedef struct _Node
+{
+	pair keydata;
+    struct _Node *left;
+    struct _Node *right;
+    struct _Node *parent;
+} Node;
+
+typedef struct _Tree
+{
+	Node *root;
+} Tree;
+
+//create
+Tree * new_tree() //returns a link to the root
+{
+	Tree *t = (Tree *)malloc(sizeof(Tree));
+	(*t).root = NULL;
+	return t;
+}
+
+//add
+Tree * add_pair(int k, float v, Tree* t)
+{
+	Node **field = *((*t).root);
+	Node *tmp = (*t).root;
+	while ((*tmp) != NULL)
+	{
+		if (k < (*tmp).keydata.key)
+		{
+			field = &((*tmp).left);
+			tmp = (*tmp).left;
+		}
+		else
+		{
+			field = &((*tmp).right);
+			tmp = (*tmp).right;
+		}
+	}
+	*field = (Node *)malloc(sizeof(Node));
+	**field.keydata.key = k;
+	**field.keydata.value = v;
+	return t;
+}
