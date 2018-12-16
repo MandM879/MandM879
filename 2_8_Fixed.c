@@ -209,7 +209,7 @@ int dfs(Node* t)
 	push (stack, (*tmp).keydata.key); //push a key from the root to the stack
 	while (1)
 	{
-		if (((*tmp).left != NULL) and 
+		if (((*tmp).left != NULL) && 
 			(search(stack, (*((*tmp).left)).keydata.key) == 0)) //left child exists and we hadn't been there before
 		{
 			tmp = (*tmp).left; //go to the left
@@ -217,7 +217,7 @@ int dfs(Node* t)
 		}
 		else
 		{
-			(((*tmp).right != NULL) and 
+			(((*tmp).right != NULL) && 
 			 (search(stack, (*((*tmp).right)).keydata.key) == 0)) //right child exists and we hadn't been there before
 			{
 				tmp = (*tmp).right; //go to the right
